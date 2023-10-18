@@ -1,7 +1,11 @@
-- name: Update apt cache
-    apt:
-      update_cache: yes
-
-  - name: Upgrade all packages    
-    apt:  
-      upgrade: dist
+---
+- name: Actualizar
+  hosts: all
+  tasks:
+    - name: Update and upgrade apt packages
+      become: true
+      ansible.builtin.apt:
+        upgrade: true
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_distribution == 'Ubuntu'
